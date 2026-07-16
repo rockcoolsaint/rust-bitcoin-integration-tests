@@ -1,6 +1,13 @@
-[package]
+[workspace.package]
 name = "rust-bitcoin-integration-tests"
 version = "0.1.0"
 edition = "2024"
+authors = ["Innocent Onyemaenu"]
+repository = "https://github.com/rockcoolsaint/rust-bitcoin-integration-tests.git"
 
-[dependencies]
+[workspace]
+resolver = "2"
+
+members = [
+    "crates/serde-interop"
+]

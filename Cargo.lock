@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "rust-bitcoin-integration-tests"
+name = "serde-interop"
 version = "0.1.0"

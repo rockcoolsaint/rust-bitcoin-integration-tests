@@ -86,3 +86,30 @@ fn deserialize_invalid_hex_json() {
             || err.to_string().contains("invalid")
     );
 }
+
+#[test]
+fn deserialize_odd_length_hex_json() {
+    let json = "\"efbeadd\"";
+
+    let result: Result<WithConsensus, _> = serde_json::from_str(json);
+
+    assert!(result.is_err());
+}
+
+#[test]
+fn deserialize_too_short_hex_json() {
+    let json = "\"efbead\"";
+
+    let result: Result<WithConsensus, _> = serde_json::from_str(json);
+
+    assert!(result.is_err());
+}
+
+#[test]
+fn deserialize_too_long_hex_json() {
+    let json = "\"efbeadde00\"";
+
+    let result: Result<WithConsensus, _> = serde_json::from_str(json);
+
+    assert!(result.is_err());
+}

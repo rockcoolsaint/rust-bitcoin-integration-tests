@@ -6,7 +6,7 @@ use consensus_encoding::{
     ArrayDecoder, ArrayEncoder, Decode, Decoder, DecoderStatus, Encode,
     UnexpectedEofError,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 /// A fixed-size byte array that implements consensus encoding.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -46,7 +46,7 @@ impl<const N: usize> Decode for TestArray<N> {
     type Decoder = TestArrayDecoder<N>;
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[serde(transparent)]
 struct WithConsensus(
     #[serde(with = "consensus_encoding::serde_as_consensus")]
@@ -60,4 +60,16 @@ fn serialize_array_bytes_as_hex_json() {
     let json = serde_json::to_string(&value).unwrap();
 
     assert_eq!(json, "\"efbeadde\"");
+}
+
+#[test]
+fn deserialize_hex_json_into_array() {
+    let json = "\"efbeadde\"";
+
+    let decoded: WithConsensus = serde_json::from_str(json).unwrap();
+
+    assert_eq!(
+        decoded,
+        WithConsensus(TestArray([0xef, 0xbe, 0xad, 0xde]))
+    );
 }

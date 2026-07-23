@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bincode = "1"
 consensus_encoding = { git = "https://github.com/rust-bitcoin/rust-bitcoin", package = "bitcoin-consensus-encoding", features = ["serde"]}
 
 [dev-dependencies]
